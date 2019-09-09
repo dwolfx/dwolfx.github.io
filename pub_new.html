@@ -8,7 +8,7 @@
     id="objeto"
     style="background: #000; overflow: hidden; height: 250px; width: 300px;"
   >
-    <div id="imagem1">
+    <div id="img_fly">
       <img id="imag1" class="imag1" data-macroname="" src="exit-banner.jpg" />
     </div>
   </div>
@@ -33,6 +33,7 @@
         ? top.pageYOffset
         : top.document.documentElement.scrollTop;
     for (item in triggers) {
+      getOffset(window.frameElement);
       triggers[item].updatePosition();
     }
   };
@@ -56,24 +57,11 @@
       clearInterval(timerTouchMove);
     }, 3000);
   };
-  ParallaxElement = function(
-    be,
-    el,
-    animation,
-    inicialPosition,
-    finalPosition,
-    startTarget,
-    endTarget,
-    zindex
-  ) {
+  ParallaxElement = function(be, el, inicialPosition, finalPosition, zindex) {
     inicialPosition = top.innerHeight * -1;
     finalPosition = top.innerHeight * 0.37075;
-    startTarget = -0.04;
-    endTarget = 0.04;
     console.log(`inicio: ${inicialPosition} ; final: ${finalPosition}`);
     if (window.frameElement != null) {
-      this.startTargetO = startTarget;
-      this.endTargetO = endTarget;
       this.sangria = 0.2;
       this.baseObject =
         typeof document.getElementById(be) != "undefined"
@@ -105,9 +93,6 @@
           ? finalPosition
           : -Number(this.targetObject.style.height.replace("px", ""));
       this.scrollTopY;
-      this.animation = animation;
-      this.startTarget = this.start - startTarget * (this.start - this.end);
-      this.endTarget = this.end + endTarget * (this.start - this.end);
       this.positionRelative;
       this.pc;
       this.zindex = zindex;
@@ -116,7 +101,7 @@
 
       if (typeof this.baseObject != "undefined") {
         this.baseObject.style.position = "relative";
-        this.targetObject.style.position = "absolute";
+        this.targetObject.style.position = "fixed";
         this.targetObject.style.top = this.inicialPosition + "px";
         this.targetObject.style.zIndex = this.zindex;
       }
@@ -127,11 +112,6 @@
         "pageXOffset" in top
           ? top.pageYOffset
           : top.document.documentElement.scrollTop;
-
-      this.pc =
-        1 +
-        (this.endTarget - this.scrollTopY) /
-          (this.startTarget - this.endTarget);
 
       if (this.inicialPosition - this.finalPosition > 0) {
         this.positionRelative =
@@ -147,6 +127,34 @@
       // }
     }
   };
+  function getOffset(el) {
+    const _rect = el.getBoundingClientRect();
+    let _pos = _rect.top + window.scrollY;
+    const _sizeScreen = top.innerHeight;
+    let local = (_sizeScreen - 600) / 2;
+    const img = document.getElementById("img_fly");
+
+    console.log(
+      `Local: ${local} | Pos: ${_pos} | Pos + Local = ${local +
+        _pos} | Pos - Screen = ${_pos -
+        _sizeScreen} | Size Screen: ${_sizeScreen} | Razão: ${(_sizeScreen *
+        -1 +
+        (_pos + _sizeScreen * 1)) *
+        -1}`
+    );
+    let spaceTop;
+    console.log(img);
+    if (_pos + local <= local * -1) {
+      console.log("acabou");
+      img.style.top = 250;
+    } else if (_pos < local + 600) {
+      console.log("começou");
+      img.style.top = (_sizeScreen * -1 + (_pos + _sizeScreen * 1)) * -1;
+    } else {
+      // console.log(`Ele está na altura: ${pos}`);
+    }
+  }
+
   ParallaxElement.prototype.updatePosition = function() {
     if (window.frameElement != null) {
       this.scrollTopY =
@@ -169,31 +177,6 @@
             Number(this.baseObject.style.height.replace("px", "")) *
               (1 - this.sangria)
           : 1;
-      this.startTarget =
-        this.start - this.startTargetO * (this.start - this.end);
-      this.endTarget = this.end + this.endTargetO * (this.start - this.end);
-
-      if (
-        this.scrollTopY >= this.startTarget - 150 &&
-        this.scrollTopY <= this.endTarget + 150
-      ) {
-        this.pc =
-          1 +
-          (this.endTarget - this.scrollTopY) /
-            (this.startTarget - this.endTarget);
-
-        if (this.inicialPosition - this.finalPosition > 0) {
-          this.positionRelative =
-            this.inicialPosition -
-            this.pc * (this.inicialPosition - this.finalPosition);
-        } else {
-          this.positionRelative =
-            this.inicialPosition +
-            this.pc * Math.abs(this.inicialPosition - this.finalPosition);
-        }
-
-        this.targetObject.style.top = this.positionRelative + "px";
-      }
     }
   };
   var t1,
@@ -202,9 +185,7 @@
 </script>
 
 <script id="triggerScript">
-  var triggers = [
-    new ParallaxElement("objeto", "imagem1", "none", -766, 284, 0, 0, 1)
-  ];
+  var triggers = [new ParallaxElement("objeto", "img_fly", -766, 284, 1)];
 </script>
 
 <script>
