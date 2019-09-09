@@ -143,15 +143,9 @@
         -1}`
     );
     let spaceTop;
-    console.log(img);
-    if (_pos + local <= local * -1) {
-      console.log("acabou");
-      img.style.top = 250;
-    } else if (_pos < local + 600) {
-      console.log("começou");
-      img.style.top = (_sizeScreen * -1 + (_pos + _sizeScreen * 1)) * -1;
-    } else {
-      // console.log(`Ele está na altura: ${pos}`);
+    if (_pos < local + 600) {
+      img.style.top =
+        (_sizeScreen * -1 + (_pos + _sizeScreen * 1) - (local + 10)) * -1;
     }
   }
 
