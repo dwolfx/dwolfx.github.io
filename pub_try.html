@@ -1,0 +1,213 @@
+<style>
+  body {
+    margin: unset;
+  }
+</style>
+<a id="linkPeca" target="_blank" href="%%CLICK_URL_UNESC%%%%DEST_URL%%">
+  <div
+    id="objeto"
+    style="background: #000; overflow: hidden; height: 250px; width: 300px;"
+  >
+    <div id="imagem1">
+      <img id="imag1" class="imag1" data-macroname="" src="exit-banner.jpg" />
+    </div>
+  </div>
+</a>
+<script type="text/javascript">
+  var timerTouchMove = 0;
+  var eventTouchMove;
+
+  if (document.createEvent) {
+    eventTouchMove = document.createEvent("HTMLEvents");
+    eventTouchMove.initEvent("moving", true, true);
+  } else {
+    eventTouchMove = document.createEventObject();
+    eventTouchMove.eventType = "moving";
+  }
+
+  eventTouchMove.eventName = "moving";
+
+  handlerScrollStart = function(e) {
+    scrollTopY =
+      "pageXOffset" in top
+        ? top.pageYOffset
+        : top.document.documentElement.scrollTop;
+    for (item in triggers) triggers[item].updatePosition();
+  };
+  ("");
+
+  handlerTouchStart = function(e) {
+    clearInterval(timerEndTouch);
+    clearInterval(timerTouchMove);
+    timerTouchMove = setInterval(function() {
+      if (document.createEvent) {
+        document.dispatchEvent(eventTouchMove);
+      } else {
+        document.fireEvent("on" + eventTouchMove.eventType, eventTouchMove);
+      }
+    }, 30);
+  };
+
+  var timerEndTouch = 0;
+  handlerTouchEnd = function(e) {
+    timerEndTouch = setTimeout(function() {
+      clearInterval(timerTouchMove);
+    }, 3000);
+  };
+  ParallaxElement = function(
+    be,
+    el,
+    animation,
+    inicialPosition,
+    finalPosition,
+    startTarget,
+    endTarget,
+    zindex
+  ) {
+    inicialPosition = top.innerHeight * -1;
+    finalPosition = top.innerHeight * 0.37075;
+    startTarget = -0.04;
+    endTarget = 0.04;
+    console.log(`inicio: ${inicialPosition} ; final: ${finalPosition}`);
+    if (window.frameElement != null) {
+      this.startTargetO = startTarget;
+      this.endTargetO = endTarget;
+      this.sangria = 0.2;
+      this.baseObject =
+        typeof document.getElementById(be) != "undefined"
+          ? document.getElementById(be)
+          : "";
+      this.targetObject =
+        typeof document.getElementById(el) != "undefined"
+          ? document.getElementById(el)
+          : "";
+      this.start =
+        (typeof this.baseObject != "undefined"
+          ? this.baseObject.offsetTop +
+            window.frameElement.getBoundingClientRect().top +
+            top.pageYOffset +
+            Number(this.baseObject.style.height.replace("px", "")) *
+              this.sangria
+          : 1) - screen.height;
+      this.end =
+        typeof this.baseObject != "undefined"
+          ? this.baseObject.offsetTop +
+            window.frameElement.getBoundingClientRect().top +
+            top.pageYOffset +
+            Number(this.baseObject.style.height.replace("px", "")) *
+              (1 - this.sangria)
+          : 1;
+      this.inicialPosition = inicialPosition != null ? inicialPosition : 0;
+      this.finalPosition =
+        finalPosition != null
+          ? finalPosition
+          : -Number(this.targetObject.style.height.replace("px", ""));
+      this.scrollTopY;
+      this.animation = animation;
+      this.startTarget = this.start - startTarget * (this.start - this.end);
+      this.endTarget = this.end + endTarget * (this.start - this.end);
+      this.positionRelative;
+      this.pc;
+      this.zindex = zindex;
+
+      // config inicial
+
+      if (typeof this.baseObject != "undefined") {
+        this.baseObject.style.position = "relative";
+        this.targetObject.style.position = "absolute";
+        this.targetObject.style.top = this.inicialPosition + "px";
+        this.targetObject.style.zIndex = this.zindex;
+      }
+
+      // Mesmo do prototype
+
+      this.scrollTopY =
+        "pageXOffset" in top
+          ? top.pageYOffset
+          : top.document.documentElement.scrollTop;
+
+      this.pc =
+        1 +
+        (this.endTarget - this.scrollTopY) /
+          (this.startTarget - this.endTarget);
+
+      if (this.inicialPosition - this.finalPosition > 0) {
+        this.positionRelative =
+          this.inicialPosition -
+          this.pc * (this.inicialPosition - this.finalPosition);
+        this.targetObject.style.top = this.positionRelative + "px";
+      } else {
+        this.positionRelative =
+          this.inicialPosition +
+          this.pc * Math.abs(this.inicialPosition - this.finalPosition);
+        this.targetObject.style.top = this.positionRelative + "px";
+      }
+      // }
+    }
+  };
+  ParallaxElement.prototype.updatePosition = function() {
+    if (window.frameElement != null) {
+      this.scrollTopY =
+        "pageXOffset" in top
+          ? top.pageYOffset
+          : top.document.documentElement.scrollTop;
+      this.start =
+        (typeof this.baseObject != "undefined"
+          ? this.baseObject.offsetTop +
+            window.frameElement.getBoundingClientRect().top +
+            top.pageYOffset +
+            Number(this.baseObject.style.height.replace("px", "")) *
+              this.sangria
+          : 1) - screen.height;
+      this.end =
+        typeof this.baseObject != "undefined"
+          ? this.baseObject.offsetTop +
+            window.frameElement.getBoundingClientRect().top +
+            top.pageYOffset +
+            Number(this.baseObject.style.height.replace("px", "")) *
+              (1 - this.sangria)
+          : 1;
+      this.startTarget =
+        this.start - this.startTargetO * (this.start - this.end);
+      this.endTarget = this.end + this.endTargetO * (this.start - this.end);
+
+      if (
+        this.scrollTopY >= this.startTarget - 150 &&
+        this.scrollTopY <= this.endTarget + 150
+      ) {
+        this.pc =
+          1 +
+          (this.endTarget - this.scrollTopY) /
+            (this.startTarget - this.endTarget);
+
+        if (this.inicialPosition - this.finalPosition > 0) {
+          this.positionRelative =
+            this.inicialPosition -
+            this.pc * (this.inicialPosition - this.finalPosition);
+        } else {
+          this.positionRelative =
+            this.inicialPosition +
+            this.pc * Math.abs(this.inicialPosition - this.finalPosition);
+        }
+
+        this.targetObject.style.top = this.positionRelative + "px";
+      }
+    }
+  };
+  var t1,
+    t2 = 0;
+  triggers = [];
+</script>
+
+<script id="triggerScript">
+  var triggers = [
+    new ParallaxElement("objeto", "imagem1", "easeInOut", -766, 284, 0, 0, 1)
+  ];
+</script>
+
+<script>
+  if (window != top) {
+    top.addEventListener("scroll", handlerScrollStart);
+    top.addEventListener("touchmove", handlerScrollStart);
+  }
+</script>

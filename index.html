@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Fly Carpet</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        margin: 0 auto;
+      }
+      #space {
+        width: 100%;
+        height: 100vh;
+      }
+      .iframeItem {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="space"></div>
+    <div class="iframeItem">
+      <iframe
+        src="./pub_try.html"
+        frameborder="0"
+        width="300"
+        height="250"
+      ></iframe>
+    </div>
+    <div id="space"></div>
+  </body>
+  <script>
+    var x = window.innerHeight + "px";
+    // document.querySelectorAll("#space");
+    for (var i = 0; i < document.querySelectorAll("#space").length; i++) {
+      document.querySelectorAll("#space")[i].style.height = x;
+    }
+  </script>
+</html>
