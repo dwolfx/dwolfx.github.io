@@ -3,8 +3,7 @@
     margin: unset;
   }
 </style>
-<a id="linkPeca" target="_blank" href="%%CLICK_URL_UNESC%%%%DEST_URL%%"
-  >216191074
+<a id="linkPeca" target="_blank" href="%%CLICK_URL_UNESC%%%%DEST_URL%%">
   <div
     id="objeto"
     style="background: #000; overflow: hidden; height: 250px; width: 300px;"
@@ -33,7 +32,9 @@
       "pageXOffset" in top
         ? top.pageYOffset
         : top.document.documentElement.scrollTop;
-    for (item in triggers) triggers[item].updatePosition();
+    for (item in triggers) {
+      triggers[item].updatePosition();
+    }
   };
   ("");
 
@@ -46,7 +47,7 @@
       } else {
         document.fireEvent("on" + eventTouchMove.eventType, eventTouchMove);
       }
-    }, 30);
+    }, 10);
   };
 
   var timerEndTouch = 0;
@@ -202,7 +203,7 @@
 
 <script id="triggerScript">
   var triggers = [
-    new ParallaxElement("objeto", "imagem1", "easeInOut", -766, 284, 0, 0, 1)
+    new ParallaxElement("objeto", "imagem1", "none", -766, 284, 0, 0, 1)
   ];
 </script>
 
