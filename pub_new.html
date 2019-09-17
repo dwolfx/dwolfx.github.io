@@ -60,6 +60,7 @@
   ParallaxElement = function(be, el, inicialPosition, finalPosition, zindex) {
     inicialPosition = top.innerHeight * -1;
     finalPosition = top.innerHeight * 0.37075;
+    console.log(`inicio: ${inicialPosition} ; final: ${finalPosition}`);
     if (window.frameElement != null) {
       this.sangria = 0.2;
       this.baseObject =
@@ -133,10 +134,20 @@
     let local = (_sizeScreen - 600) / 2;
     const img = document.getElementById("img_fly");
 
-    let spaceTop;
+    console.log(
+      `Local: ${local} | Pos: ${_pos} | Pos + Local = ${local +
+        _pos} | Pos - Screen = ${_pos -
+        _sizeScreen} | Size Screen: ${_sizeScreen} | Razão: ${(_sizeScreen *
+        -1 +
+        (_pos + _sizeScreen * 1) -
+        (local + 10)) *
+        -1}`
+    );
     if (_pos < local + 600) {
       img.style.top =
         (_sizeScreen * -1 + (_pos + _sizeScreen * 1) - (local + 10)) * -1;
+    } else {
+      console.log(`Ele está na altura: ${_pos}`);
     }
   }
 
