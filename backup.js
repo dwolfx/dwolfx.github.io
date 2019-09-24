@@ -1,0 +1,192 @@
+<style>
+  body {
+    margin: unset;
+  }
+</style>
+<a id="linkPeca" target="_blank" href="%%CLICK_URL_UNESC%%%%DEST_URL%%">
+  <div
+    id="objeto"
+    style="background: #000; overflow: hidden; height: 250px; width: 300px;"
+  >
+    <div id="img_fly">
+      <img id="imag1" class="imag1" data-macroname="" src="%%FILE:JPG1%%" />
+    </div>
+  </div>
+</a>
+<script type="text/javascript">
+  var timerTouchMove = 0;
+  var eventTouchMove;
+
+  if (document.createEvent) {
+    eventTouchMove = document.createEvent("HTMLEvents");
+    eventTouchMove.initEvent("moving", true, true);
+  } else {
+    eventTouchMove = document.createEventObject();
+    eventTouchMove.eventType = "moving";
+  }
+
+  eventTouchMove.eventName = "moving";
+
+  handlerScrollStart = function(e) {
+    scrollTopY =
+      "pageXOffset" in top
+        ? top.pageYOffset
+        : top.document.documentElement.scrollTop;
+    for (item in triggers) {
+      getOffset(window.frameElement);
+      triggers[item].updatePosition();
+    }
+  };
+  ("");
+
+  handlerTouchStart = function(e) {
+    clearInterval(timerEndTouch);
+    clearInterval(timerTouchMove);
+    timerTouchMove = setInterval(function() {
+      if (document.createEvent) {
+        document.dispatchEvent(eventTouchMove);
+      } else {
+        document.fireEvent("on" + eventTouchMove.eventType, eventTouchMove);
+      }
+    }, 10);
+  };
+
+  var timerEndTouch = 0;
+  handlerTouchEnd = function(e) {
+    timerEndTouch = setTimeout(function() {
+      clearInterval(timerTouchMove);
+    }, 3000);
+  };
+  ParallaxElement = function(be, el, inicialPosition, finalPosition, zindex) {
+    inicialPosition = top.innerHeight * -1;
+    finalPosition = top.innerHeight * 0.37075;
+    console.log(`inicio: ${inicialPosition} ; final: ${finalPosition}`);
+    if (window.frameElement != null) {
+      this.sangria = 0.2;
+      this.baseObject =
+        typeof document.getElementById(be) != "undefined"
+          ? document.getElementById(be)
+          : "";
+      this.targetObject =
+        typeof document.getElementById(el) != "undefined"
+          ? document.getElementById(el)
+          : "";
+      this.start =
+        (typeof this.baseObject != "undefined"
+          ? this.baseObject.offsetTop +
+            window.frameElement.getBoundingClientRect().top +
+            top.pageYOffset +
+            Number(this.baseObject.style.height.replace("px", "")) *
+              this.sangria
+          : 1) - screen.height;
+      this.end =
+        typeof this.baseObject != "undefined"
+          ? this.baseObject.offsetTop +
+            window.frameElement.getBoundingClientRect().top +
+            top.pageYOffset +
+            Number(this.baseObject.style.height.replace("px", "")) *
+              (1 - this.sangria)
+          : 1;
+      this.inicialPosition = inicialPosition != null ? inicialPosition : 0;
+      this.finalPosition =
+        finalPosition != null
+          ? finalPosition
+          : -Number(this.targetObject.style.height.replace("px", ""));
+      this.scrollTopY;
+      this.positionRelative;
+      this.pc;
+      this.zindex = zindex;
+
+      // config inicial
+
+      if (typeof this.baseObject != "undefined") {
+        this.baseObject.style.position = "relative";
+        this.targetObject.style.position = "fixed";
+        this.targetObject.style.top = this.inicialPosition + "px";
+        this.targetObject.style.zIndex = this.zindex;
+      }
+
+      // Mesmo do prototype
+
+      this.scrollTopY =
+        "pageXOffset" in top
+          ? top.pageYOffset
+          : top.document.documentElement.scrollTop;
+
+      if (this.inicialPosition - this.finalPosition > 0) {
+        this.positionRelative =
+          this.inicialPosition -
+          this.pc * (this.inicialPosition - this.finalPosition);
+        this.targetObject.style.top = this.positionRelative + "px";
+      } else {
+        this.positionRelative =
+          this.inicialPosition +
+          this.pc * Math.abs(this.inicialPosition - this.finalPosition);
+        this.targetObject.style.top = this.positionRelative + "px";
+      }
+      // }
+    }
+  };
+  function getOffset(el) {
+    const _rect = el.getBoundingClientRect();
+    let _pos = _rect.top + window.scrollY;
+    const _sizeScreen = top.innerHeight;
+    let local = (_sizeScreen - 600) / 2;
+    const img = document.getElementById("img_fly");
+
+    console.log(
+      `Local: ${local} | Pos: ${_pos} | Pos + Local = ${local +
+        _pos} | Pos - Screen = ${_pos -
+        _sizeScreen} | Size Screen: ${_sizeScreen} | Razão: ${(_sizeScreen *
+        -1 +
+        (_pos + _sizeScreen * 1) -
+        (local + 10)) *
+        -1}`
+    );
+    if (_pos < local + 600) {
+      img.style.top =
+        (_sizeScreen * -1 + (_pos + _sizeScreen * 1) - (local + 10)) * -1;
+    } else {
+      console.log(`Ele está na altura: ${pos}`);
+    }
+  }
+
+  ParallaxElement.prototype.updatePosition = function() {
+    if (window.frameElement != null) {
+      this.scrollTopY =
+        "pageXOffset" in top
+          ? top.pageYOffset
+          : top.document.documentElement.scrollTop;
+      this.start =
+        (typeof this.baseObject != "undefined"
+          ? this.baseObject.offsetTop +
+            window.frameElement.getBoundingClientRect().top +
+            top.pageYOffset +
+            Number(this.baseObject.style.height.replace("px", "")) *
+              this.sangria
+          : 1) - screen.height;
+      this.end =
+        typeof this.baseObject != "undefined"
+          ? this.baseObject.offsetTop +
+            window.frameElement.getBoundingClientRect().top +
+            top.pageYOffset +
+            Number(this.baseObject.style.height.replace("px", "")) *
+              (1 - this.sangria)
+          : 1;
+    }
+  };
+  var t1,
+    t2 = 0;
+  triggers = [];
+</script>
+
+<script id="triggerScript">
+  var triggers = [new ParallaxElement("objeto", "img_fly", -766, 284, 1)];
+</script>
+
+<script>
+  if (window != top) {
+    top.addEventListener("scroll", handlerScrollStart);
+    top.addEventListener("touchmove", handlerScrollStart);
+  }
+</script>
