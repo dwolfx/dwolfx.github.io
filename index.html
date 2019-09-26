@@ -6,9 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Orientação</title>
   </head>
-  <body style="background-color: blueviolet"></body>
+  <body
+    style="background-color: blueviolet; width: 100vw; height: 100vh; display: block;"
+    onclick="onClick()"
+  ></body>
   <script>
     function onClick() {
+      console.log("victor");
       // feature detect
       if (typeof DeviceMotionEvent.requestPermission === "function") {
         DeviceMotionEvent.requestPermission()
