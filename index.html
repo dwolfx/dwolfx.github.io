@@ -6,18 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Orientação</title>
   </head>
-  <body style="background-color: burlywood"></body>
+  <body style="background-color: blueviolet"></body>
   <script>
-        navigation.permissions.request({ name: “gyroscope” }); // For DeviceOrientationEvents
-    navigation.permissions.request({ name: “accelerometer” }); // For DeviceMotionEvents
-        function handleOrientation(event) {
-          console.log(event);
-          console.log(event.absolute);
-          var absolute = event.absolute;
-          var alpha = event.alpha;
-          var beta = event.beta;
-          var gamma = event.gamma;
-        }
-        window.addEventListener("deviceorientation", handleOrientation, true);
+    Promise.all([
+      navigation.permissions.request({ name: “accelerometer” }),
+      navigation.permissions.request({ name: “gyroscope” })
+    ]).then(results => {
+      function handleOrientation(event) {
+        console.log(event);
+        console.log(event.absolute);
+        var absolute = event.absolute;
+        var alpha = event.alpha;
+        var beta = event.beta;
+        var gamma = event.gamma;
+      }
+    });
+    window.addEventListener("deviceorientation", handleOrientation, true);
   </script>
 </html>
