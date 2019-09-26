@@ -19,7 +19,7 @@
     const $frame = window.frameElement;
     console.log(`1${top.flyingCarpertSetup}1`);
     if (!top.flyingCarpertSetup) {
-      top.flyingCarpertSetup = true
+      top.flyingCarpertSetup = true;
       $frame.style = "border: 1px solid red";
 
       const $styler = document.createElement("style");
@@ -49,8 +49,8 @@
         #container {
             position: fixed!important;
             top: 0!important;
-            left: 0;
-            width: 100%;
+            left: unset;
+            width: 355 !important;
             height: 100%;
             -webkit-transform: translateZ(0)!important;
             display: -ms-flexbox;
@@ -64,7 +64,7 @@
         }
 
         #ad {
-            width: 300px;
+            width: 300px !important;
             height: 600px;
         }
         `;
