@@ -8,13 +8,14 @@
   </head>
   <body style="background-color: aquamarine"></body>
   <script>
-    let accelerometer = new Accelerometer({ frequency: 60 });
-
-    accelerometer.addEventListener("reading", e => {
-      console.log("Acceleration along the X-axis " + accelerometer.x);
-      console.log("Acceleration along the Y-axis " + accelerometer.y);
-      console.log("Acceleration along the Z-axis " + accelerometer.z);
-    });
-    accelerometer.start();
+    function handleOrientation(event) {
+      console.log(event);
+      console.log(event.absolute);
+      var absolute = event.absolute;
+      var alpha = event.alpha;
+      var beta = event.beta;
+      var gamma = event.gamma;
+    }
+    window.addEventListener("deviceorientation", handleOrientation, true);
   </script>
 </html>
