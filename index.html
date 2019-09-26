@@ -5,24 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Orientação</title>
+    <style>
+      body {
+        background-color: yellowgreen;
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+      #texto {
+        color: #fff;
+        font-size: 2em;
+        display: flex;
+      }
+      #texto p.alpha {
+        margin: 0;
+        padding-left: 10px;
+      }
+    </style>
   </head>
-  <body
-    style="background-color: blueviolet; width: 100vw; height: 100vh; display: block;"
-    onload="onClick()"
-  ></body>
+  <body onclick="onClick()">
+    <div id="texto">
+      Alpha:
+      <p class="alpha">aa</p>
+    </div>
+  </body>
   <script>
     function onClick() {
-      console.log("victor");
+      console.log("victor----");
       // feature detect
       if (typeof DeviceOrientationEvent.requestPermission === "function") {
         DeviceOrientationEvent.requestPermission()
           .then(permissionState => {
             if (permissionState === "granted") {
               window.addEventListener("deviceorientation", event => {
-                var absolute = event.absolute;
                 var alpha = event.alpha;
-                var beta = event.beta;
-                var gamma = event.gamma;
+                document.getElementById(texto).textContent = alpha;
                 console.log(`Alpha: ${alpha}|`);
               });
             }
