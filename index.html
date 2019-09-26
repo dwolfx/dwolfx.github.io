@@ -7,18 +7,18 @@
     <title>Orientação</title>
   </head>
   <body
-    style="background-color: greenyellow; width: 100vw; height: 100vh; display: block;"
+    style="background-color: blueviolet; width: 100vw; height: 100vh; display: block;"
     onclick="onClick()"
   ></body>
   <script>
     function onClick() {
       console.log("victor");
       // feature detect
-      if (typeof DeviceMotionEvent.requestPermission === "function") {
-        DeviceMotionEvent.requestPermission()
+      if (typeof DeviceOrientationEvent.requestPermission === "function") {
+        DeviceOrientationEvent.requestPermission()
           .then(permissionState => {
             if (permissionState === "granted") {
-              window.addEventListener("devicemotion", () => {
+              window.addEventListener("deviceorientation", () => {
                 function handleOrientation(event) {
                   console.log(event);
                   console.log(event.absolute);
