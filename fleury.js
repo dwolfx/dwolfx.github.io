@@ -1,13 +1,12 @@
 (() => {
     const $frame = window.frameElement
-    console.log(`1${top.flyingCarpertSetup}1`)
     if (!top.flyingCarpertSetup) {
         top.flyingCarpertSetup = true
         $frame.style = 'border: 1px solid red'
 
         const $styler = document.createElement('style')
         $styler.innerHTML = `
-        #sizer {
+        #flycpt-sizer {
             height: 300px;
             width: 300px;
             position: relative!important;
@@ -15,7 +14,7 @@
             overflow: hidden!important;
         }
 
-        #clipper {
+        #flycpt-clipper {
             position: absolute!important;
             top: 0!important;
             left: 0!important;
@@ -29,7 +28,7 @@
             clip-path: polygon(0px 0px,100% 0px,100% 100%,0px 100%)!important;
         }
 
-        #container {
+        #flycpt-container {
             position: fixed!important;
             top: 0!important;
             left: 0;
@@ -46,7 +45,7 @@
             justify-content: center;
         }
 
-        #ad {
+        #flycpt-ad {
             width: 300px;
             height: 600px;
         }
@@ -54,21 +53,27 @@
         $frame.parentNode.appendChild($styler)
 
         const $sizer = document.createElement('div')
-        $sizer.setAttribute('id', 'sizer')
+        $sizer.setAttribute('id', 'flycpt-sizer')
         $frame.parentNode.appendChild($sizer)
 
         const $clipper = document.createElement('div')
-        $clipper.setAttribute('id', 'clipper')
+        $clipper.setAttribute('id', 'flycpt-clipper')
         $sizer.appendChild($clipper)
 
         const $container = document.createElement('div')
-        $container.setAttribute('id', 'container')
+        $container.setAttribute('id', 'flycpt-container')
         $clipper.appendChild($container)
 
         const $ad = document.createElement('div')
-        $ad.setAttribute('id', 'ad')
+        $ad.setAttribute('id', 'flycpt-ad')
         $container.appendChild($ad)
 
-        $ad.appendChild($frame.parentNode.removeChild($frame))
+        top.flycptFrame = $frame
+        top.setTimeout(`
+            document.getElementById('flycpt-ad').prepend(
+                flycptFrame.parentNode.removeChild(flycptFrame)
+            )
+            console.log('Frame patched successfully!', flycptFrame)
+        `, 0)
     }
 })()
